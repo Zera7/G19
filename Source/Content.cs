@@ -15,15 +15,17 @@ namespace G19.Source
         public const string BackgroundPath = "Background/";
 
 
-        public static List<Texture> Textures;
+        public static Dictionary<string, Texture> Backgrounds;
         public static Font Font;
 
         public static void Load()
         {
+            Backgrounds = new Dictionary<string, Texture>();
+
             try
             {
                 Font = new Font(FontsPath + "Oswald-Regular.ttf");
-                Textures.Add(new Texture(ImagesPath + BackgroundPath + "snow.jpg"));
+                Backgrounds.Add("snow", new Texture(ImagesPath + BackgroundPath + "snow.jpg"));
             }
             catch (Exception e)
             {

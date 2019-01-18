@@ -63,6 +63,7 @@
     <Compile Include="Source\Interface\IGameObject.cs" />
     <Compile Include="Source\Interface\IMovable.cs" />
     <Compile Include="Source\Interface\ISlavable.cs" />
+    <Compile Include="Source\Model\AttackCharacteristics.cs" />
     <Compile Include="Source\Model\Size.cs" />
     <Compile Include="Source\Player.cs" />
     <Compile Include="Source\Program.cs" />

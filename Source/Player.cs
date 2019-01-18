@@ -5,18 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
+using G19.Source.Model;
 
 namespace G19.Source
 {
     public class Player : ISlavable, IAttackable, IMovable
     {
-        public int Speed { get; set; }
-        public float Angle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int SpeedPS { get; set; } = 120;
+        public float Angle { get; set; }
         public int Team { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IntPair Coordinates { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public float IntersectionRadius { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int AttackDistance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int[] AttackPower { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsMoving { get; set; }
+        public AttackCharacteristics[] Attacks { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int RotateSpeedDS { get; set; } = 360;
+
+        public Player()
+        {
+
+        }
 
         public void Attack()
         {

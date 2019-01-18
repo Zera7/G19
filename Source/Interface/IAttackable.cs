@@ -1,4 +1,5 @@
-﻿using System;
+﻿using G19.Source.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,7 @@ namespace G19.Source.Interface
 {
     public interface IAttackable : IGameObject
     {
-        int AttackDistance { get; set; }
-        int[] AttackPower { get; set; }
+        AttackCharacteristics[] Attacks { get; set; }
 
         void Attack();
     }
