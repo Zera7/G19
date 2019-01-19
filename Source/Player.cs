@@ -12,6 +12,9 @@ namespace G19.Source
 {
     public class Player : Transformable, ISlavable, IAttackable, IMovable
     {
+        public const int DirectionRadius = 7;
+        public const int DirectionRemoteness = 70; 
+
         public int SpeedPS { get; set; } = 120;
         public float Angle { get; set; }
         public int Team { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -23,17 +26,27 @@ namespace G19.Source
         public bool[] Directions { get; set; } = new bool[4];
 
 
-        public CircleShape Sprite { get; set; }
+        public CircleShape PlayerSprite { get; set; }
+        public CircleShape DirectionSprite { get; set; }
 
         public Player(IntPair startPosition)
         {
-            Sprite = new CircleShape(IntersectionRadius, 3)
+            PlayerSprite = new CircleShape(IntersectionRadius, 3)
             {
                 FillColor = Color.Green,
                 Origin = new Vector2f(IntersectionRadius, IntersectionRadius),
                 Position = new Vector2f(startPosition.X, startPosition.Y),
                 Rotation = 90
             };
+
+            DirectionSprite = new CircleShape(DirectionRadius, 3)
+            {
+                FillColor = new Color(0, 0, 0, 50),
+                Origin = new Vector2f(DirectionRadius, DirectionRadius + DirectionRemoteness),
+                Position = new Vector2f(startPosition.X, startPosition.Y),
+                Rotation = 90
+            };
+
             Position = new Vector2f(startPosition.X, startPosition.Y);
         }
 
@@ -50,7 +63,8 @@ namespace G19.Source
         public void Draw(RenderTarget target, RenderStates states)
         {
             states.Transform *= Transform;
-            target.Draw(Sprite);
+            target.Draw(PlayerSprite);
+            target.Draw(DirectionSprite);
         }
 
         public void Intersect()
@@ -61,12 +75,13 @@ namespace G19.Source
         public void Move(Time time)
         {
             UpdateAngle(time);
-            Sprite.Rotation = 90 - Angle;
+            DirectionSprite.Rotation = 90 - Angle;
             Position = new Vector2f(  
                     Program.View.Center.X + (float)Math.Cos(Angle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
                     Program.View.Center.Y - (float)Math.Sin(Angle * Math.PI / 180) * SpeedPS * time.AsSeconds());
 
-            Sprite.Position = Position;
+            PlayerSprite.Position = Position;
+            DirectionSprite.Position = Position;
         }
 
         private void UpdateAngle(Time time)

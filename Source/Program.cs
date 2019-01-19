@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.Window;
+using SFML.System;
 
 namespace G19.Source
 {
@@ -21,15 +22,13 @@ namespace G19.Source
         {
             Content.Load();
 
+            View = new View();
+
             Window = new RenderWindow(new VideoMode(Width, Height), "G19");
             Window.Closed += Close;
             Window.Resized += Resize;
 
-            View = new View();
-
             var game = new Game();
-            Window.KeyPressed += game.HandleKeyPressed;
-            Window.KeyReleased += game.HandleKeyReleased;
 
             while (Window.IsOpen)
             {
@@ -45,7 +44,7 @@ namespace G19.Source
 
         private static void Resize(object sender, SizeEventArgs e)
         {
-            View.Size = new SFML.System.Vector2f(e.Width, e.Height);
+            View.Size = new Vector2f(e.Width, e.Height);
         }
 
         private static void Close(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using G19.Source.Event;
+using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using System;
@@ -13,13 +14,20 @@ namespace G19.Source
     {
         public World World { get; set; }
 
+        public GameSFEventHandler EventHandler { get; set; }
+
         public Clock Clock = new Clock();
 
         public Text TestText = new Text("dfghj", Content.Font);
 
+
         public Game()
         {
             World = new World("snow");
+
+            EventHandler = new GameSFEventHandler(Program.Window, World);
+            EventHandler.Connect();
+
             Program.View = new View(
                 new Vector2f(World.StartPosition.X, World.StartPosition.Y),
                 new Vector2f(Program.Width, Program.Height));
@@ -39,57 +47,6 @@ namespace G19.Source
             Program.Window.Draw(World);
 
             Program.Window.SetView(Program.View);
-
-            //TestText.DisplayedString = World.Player.Angle.ToString();
-            //Program.Window.Draw(TestText);
-        }
-
-        public void HandleKeyPressed(object sender, KeyEventArgs e)
-        {
-            switch (e.Code)
-            {
-                case Keyboard.Key.Right:
-                    World.Player.Directions[0] = true;
-                    World.Player.IsMoving = true;
-                    break;
-                case Keyboard.Key.Up:
-                    World.Player.Directions[1] = true;
-                    World.Player.IsMoving = true;
-                    break;
-                case Keyboard.Key.Left:
-                    World.Player.Directions[2] = true;
-                    World.Player.IsMoving = true;
-                    break;
-                
-                case Keyboard.Key.Down:
-                    World.Player.Directions[3] = true;
-                    World.Player.IsMoving = true;
-                    break;
-            }
-        }
-
-        public void HandleKeyReleased(object sender, KeyEventArgs e)
-        {
-            switch (e.Code)
-            {
-                case Keyboard.Key.Right:
-                    World.Player.Directions[0] = false;
-                    break;
-                case Keyboard.Key.Up:
-                    World.Player.Directions[1] = false;
-                    break;
-                case Keyboard.Key.Left:
-                    World.Player.Directions[2] = false;
-                    break;
-                case Keyboard.Key.Down:
-                    World.Player.Directions[3] = false;
-                    break;
-            }
-
-            for (int i = 0; i < World.Player.Directions.Length; i++)
-                if (World.Player.Directions[i])
-                    return;
-            World.Player.IsMoving = false;
         }
     }
 }
