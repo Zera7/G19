@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace G19.Source.Interface
         int RotateSpeedDS { get; set; }
         float Angle { get; set; }
 
-        void Move();
+        void Move(Time time);
         void Intersect();
     }
 }

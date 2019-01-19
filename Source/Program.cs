@@ -15,6 +15,7 @@ namespace G19.Source
 
 
         public static RenderWindow Window;
+        public static View View;
 
         static void Main(string[] args)
         {
@@ -22,6 +23,9 @@ namespace G19.Source
 
             Window = new RenderWindow(new VideoMode(Width, Height), "G19");
             Window.Closed += Close;
+            Window.Resized += Resize;
+
+            View = new View();
 
             var game = new Game();
             Window.KeyPressed += game.HandleKeyPressed;
@@ -37,6 +41,11 @@ namespace G19.Source
 
                 Window.Display();
             }
+        }
+
+        private static void Resize(object sender, SizeEventArgs e)
+        {
+            View.Size = new SFML.System.Vector2f(e.Width, e.Height);
         }
 
         private static void Close(object sender, EventArgs e)

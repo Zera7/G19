@@ -17,7 +17,6 @@ namespace G19.Source
         
         public Player Player { get; set; }
 
-        public bool[] Directions = new bool[4];     // Направо > вверх > налево > вниз
 
         public World(string backgroundName)
         {
@@ -25,65 +24,20 @@ namespace G19.Source
 
             Background = new Sprite(Content.Backgrounds[backgroundName], new IntRect(0, 0, WorldSize.X, WorldSize.Y));
 
-            Player = new Player();
+            Player = new Player(StartPosition);
         }
 
         public void Update(Time time)
         {
-            if (Player.IsMoving)
-            {
-                var newTargetAngle = GetNewTargetAngle();
-                var deltaAngle = Math.Abs(newTargetAngle - Player.Angle) - 180;
-
-                if (newTargetAngle > Player.Angle)
-                {
-                    if (deltaAngle < 0)
-                        Player.Angle += Player.RotateSpeedDS * time.AsSeconds();
-                    else
-                        Player.Angle -= Player.RotateSpeedDS * time.AsSeconds();
-                }
-                else
-                {
-                    if (deltaAngle < 0)
-                        Player.Angle -= Player.RotateSpeedDS * time.AsSeconds();
-                    else
-                        Player.Angle += Player.RotateSpeedDS * time.AsSeconds();
-                }
-
-                if (Player.Angle < 0)
-                    Player.Angle = 360 + Player.Angle;
-                else if (Player.Angle > 360)
-                    Player.Angle -= 360;
-            }
-        }
-
-        public float GetNewTargetAngle()
-        {
-            float newAngle = 0;
-            for (int i = 0; i < Directions.Length; i++)
-            {
-                if (Directions[i])
-                {
-                    newAngle = 90 * i;
-                    if (i + 1 < Directions.Length && Directions[i + 1])
-                        newAngle += 45;
-                    else if (i > 0 && Directions[0])
-                        newAngle -= 45;
-                    else if (i == 0 && Directions[Directions.Length - 1])
-                        newAngle -= 45;
-                    break;
-                }
-            }
-
-            if (newAngle < 0)
-                newAngle += 360;
-
-            return newAngle;
+            Player.Move(time);
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+            states.Transform *= Transform;
+
             target.Draw(Background);
+            target.Draw(Player);
         }
     }
 }
