@@ -40,6 +40,9 @@ namespace G19.Source
                 Window.Clear(Color.Black);
 
                 game.Draw();
+                Window.Draw(Cursor);
+
+                Window.SetView(View);
 
                 Window.Display();
             }

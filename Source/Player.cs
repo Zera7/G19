@@ -86,34 +86,31 @@ namespace G19.Source
 
         private void UpdateAngle(Time time)
         {
-            if (IsMoving)
+            var newTargetAngle = GetNewTargetAngle();
+            var deltaAngle = Math.Abs(newTargetAngle - Angle);
+            var rotateAngle = RotateSpeedDS * time.AsSeconds();
+
+            if (rotateAngle >= deltaAngle)
+                Angle = newTargetAngle;
+            else if (newTargetAngle > Angle)
             {
-                var newTargetAngle = GetNewTargetAngle();
-                var deltaAngle = Math.Abs(newTargetAngle - Angle);
-                var rotateAngle = RotateSpeedDS * time.AsSeconds();
-
-                if (rotateAngle >= deltaAngle)
-                    Angle = newTargetAngle;
-                else if (newTargetAngle > Angle)
-                {
-                    if (deltaAngle < 180)
-                        Angle += rotateAngle;
-                    else
-                        Angle -= rotateAngle;
-                }
+                if (deltaAngle < 180)
+                    Angle += rotateAngle;
                 else
-                {
-                    if (deltaAngle < 180)
-                        Angle -= rotateAngle;
-                    else
-                        Angle += rotateAngle;
-                }
-
-                if (Angle < 0)
-                    Angle = 360 + Angle;
-                else if (Angle > 360)
-                    Angle -= 360;
+                    Angle -= rotateAngle;
             }
+            else
+            {
+                if (deltaAngle < 180)
+                    Angle -= rotateAngle;
+                else
+                    Angle += rotateAngle;
+            }
+
+            if (Angle < 0)
+                Angle = 360 + Angle;
+            else if (Angle > 360)
+                Angle -= 360;
         }
 
         public float GetNewTargetAngle()

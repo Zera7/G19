@@ -29,7 +29,11 @@ namespace G19.Source
 
         public void Update(Time time)
         {
-            Player.Move(time);
+            if (Player.IsMoving)
+            {
+                Player.Move(time);
+                Program.Cursor.Move();
+            }
         }
 
         public void Draw(RenderTarget target, RenderStates states)

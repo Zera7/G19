@@ -16,27 +16,48 @@ namespace G19.Source
 
     public class Cursor : Drawable
     {
-        public CursorState State { get; set; } = CursorState.Arrow;
-        public View View { get; }
-
-        public Vector2f WPosition;
-
-        Dictionary<CursorState, Texture> Textures { get; set; }
-        CircleShape Sprite { get; set; }
-
         public Cursor(int startX, int startY, View view)
         {
             this.View = view;
-            Textures = new Dictionary<CursorState, Texture>();
+            Sprites = new Dictionary<CursorState, Sprite>();
 
             WPosition = new Vector2f(startX, startY);
 
-            Sprite = new CircleShape(10, 16)
+            var spriteRadius = 10;
+            Sprite = new CircleShape(spriteRadius, 16)
             {
-                FillColor = new Color(100, 100, 0, 200),
-                Position = TransformToGlobal(WPosition)
+                FillColor = new Color(160, 160, 0, 200),
+                Position = TransformToGlobal(WPosition),
+                Origin = new Vector2f(spriteRadius, spriteRadius)
             };
         }
+
+        CursorState state = CursorState.Arrow;
+        public CursorState State
+        {
+            get
+            {
+                return state;
+            }
+            set
+            {
+                var coords = Sprite.Position;
+                switch (value)
+                {
+                    case CursorState.Arrow:
+                        break;
+                    case CursorState.Aim:
+                        break;
+                }
+                Sprite.Position = coords;
+            }
+        }
+
+        public View View { get; }
+        public Vector2f WPosition { get; set; }
+
+        Dictionary<CursorState, Sprite> Sprites { get; set; }
+        CircleShape Sprite { get; set; }
 
         public void Move(int windowX, int windowY)
         {

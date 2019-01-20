@@ -18,7 +18,6 @@ namespace G19.Source
 
         public Clock Clock = new Clock();
 
-        public Text TestText = new Text("dfghj", Content.Font);
 
 
         public Game()
@@ -28,14 +27,10 @@ namespace G19.Source
             EventHandler = new GameSFEventHandler(Program.Window, World, Program.Cursor);
             EventHandler.Connect();
 
-            Program.View = new View(
-                new Vector2f(World.StartPosition.X, World.StartPosition.Y),
-                new Vector2f(Program.Width, Program.Height));
+            Program.View.Size = new Vector2f(Program.Width, Program.Height);
+            Program.View.Center = new Vector2f(World.StartPosition.X, World.StartPosition.Y);
 
             Program.Cursor.State = CursorState.Aim;
-
-            TestText.Color = Color.Red;
-            TestText.Position = new Vector2f(50, 50);
         }
 
         public void Draw()
@@ -48,8 +43,6 @@ namespace G19.Source
 
             Program.Window.Draw(World);
             Program.Window.Draw(Program.Cursor);
-
-            Program.Window.SetView(Program.View);
         }
     }
 }

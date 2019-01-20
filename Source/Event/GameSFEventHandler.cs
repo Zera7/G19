@@ -20,8 +20,6 @@ namespace G19.Source.Event
 
         public override void HandleKeyPressed(object sender, KeyEventArgs e)
         {
-            Cursor.Move();
-
             switch (e.Code)
             {
                 case Keyboard.Key.Right:
@@ -78,9 +76,7 @@ namespace G19.Source.Event
                 / Math.PI * 180) - 90;
             World.Player.PlayerSprite.Rotation = angle < 0 ? angle + 360 : angle;
 
-            Cursor.Move(
-                (int)(Program.View.Center.X - Program.View.Size.X / 2 + e.X), 
-                (int)(Program.View.Center.Y - Program.View.Size.Y / 2 + e.Y));
+            Cursor.Move(e.X, e.Y);
         }
     }
 }
