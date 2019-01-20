@@ -17,14 +17,17 @@ namespace G19.Source
 
         public static RenderWindow Window;
         public static View View;
+        public static Cursor Cursor;
 
         static void Main(string[] args)
         {
             Content.Load();
 
             View = new View();
+            Cursor = new Cursor(Width / 2, Height / 2, View);
 
             Window = new RenderWindow(new VideoMode(Width, Height), "G19");
+            Window.SetMouseCursorVisible(false);
             Window.Closed += Close;
             Window.Resized += Resize;
 

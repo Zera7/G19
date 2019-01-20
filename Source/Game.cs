@@ -25,12 +25,14 @@ namespace G19.Source
         {
             World = new World("snow");
 
-            EventHandler = new GameSFEventHandler(Program.Window, World);
+            EventHandler = new GameSFEventHandler(Program.Window, World, Program.Cursor);
             EventHandler.Connect();
 
             Program.View = new View(
                 new Vector2f(World.StartPosition.X, World.StartPosition.Y),
                 new Vector2f(Program.Width, Program.Height));
+
+            Program.Cursor.State = CursorState.Aim;
 
             TestText.Color = Color.Red;
             TestText.Position = new Vector2f(50, 50);
@@ -45,6 +47,7 @@ namespace G19.Source
                 Program.View.Center = World.Player.Position;
 
             Program.Window.Draw(World);
+            Program.Window.Draw(Program.Cursor);
 
             Program.Window.SetView(Program.View);
         }

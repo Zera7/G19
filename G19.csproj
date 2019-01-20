@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Content.cs" />
+    <Compile Include="Source\Cursor.cs" />
     <Compile Include="Source\Event\SFEventHandler.cs" />
     <Compile Include="Source\Event\GameSFEventHandler.cs" />
     <Compile Include="Source\Game.cs" />

@@ -13,13 +13,15 @@ namespace G19.Source.Event
     {
         public World World { get; }
 
-        public GameSFEventHandler(RenderWindow window, World world) : base(window)
+        public GameSFEventHandler(RenderWindow window, World world, Cursor cursor) : base(window, cursor)
         {
             this.World = world;
         }
 
         public override void HandleKeyPressed(object sender, KeyEventArgs e)
         {
+            Cursor.Move();
+
             switch (e.Code)
             {
                 case Keyboard.Key.Right:
@@ -44,7 +46,6 @@ namespace G19.Source.Event
 
         public override void HandleKeyReleased(object sender, KeyEventArgs e)
         {
-
             switch (e.Code)
             {
                 case Keyboard.Key.Right:
@@ -69,11 +70,17 @@ namespace G19.Source.Event
 
         public override void HandleMouseMoved(object sender, MouseMoveEventArgs e)
         {
+            base.HandleMouseMoved(sender, e);
+
             float angle = (float)(Math.Atan2(
                 Program.View.Center.Y - World.Player.Position.Y - e.Y + Program.View.Size.Y / 2, 
                 Program.View.Center.X - World.Player.Position.X - e.X + Program.View.Size.X / 2)
                 / Math.PI * 180) - 90;
             World.Player.PlayerSprite.Rotation = angle < 0 ? angle + 360 : angle;
+
+            Cursor.Move(
+                (int)(Program.View.Center.X - Program.View.Size.X / 2 + e.X), 
+                (int)(Program.View.Center.Y - Program.View.Size.Y / 2 + e.Y));
         }
     }
 }

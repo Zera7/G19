@@ -12,10 +12,12 @@ namespace G19.Source.Event
     public class SFEventHandler : ISFEventHandler
     {
         public RenderWindow Window { get; }
+        public Cursor Cursor { get; }
 
-        public SFEventHandler(RenderWindow window)
+        public SFEventHandler(RenderWindow window, Cursor cursor)
         {
             this.Window = window;
+            this.Cursor = cursor;
         }
 
         public void Connect()
@@ -56,6 +58,7 @@ namespace G19.Source.Event
 
         public virtual void HandleMouseMoved(object sender, MouseMoveEventArgs e)
         {
+            Cursor.Move(e.X, e.Y);
         }
 
         public virtual void HandleMouseWheelMoved(object sender, MouseWheelEventArgs e)
