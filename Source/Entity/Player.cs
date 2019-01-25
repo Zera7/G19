@@ -1,36 +1,44 @@
 ﻿using G19.Source.Interface;
+using G19.Source.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
-using G19.Source.Model;
 using SFML.System;
 
-namespace G19.Source
+namespace G19.Source.Entity
 {
     public class Player : Transformable, ISlavable, IAttackable, IMovable
     {
         public const int DirectionRadius = 7;
-        public const int DirectionRemoteness = 70; 
+        public const int DirectionRemoteness = 70;
 
         public int SpeedPS { get; set; } = 120;
         public float Angle { get; set; }
-        public int Team { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Team { get; set; } = 1;
         public IntPair Coordinates { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public float IntersectionRadius { get; set; } = 10;
         public bool IsMoving { get; set; }
-        public AttackCharacteristics[] Attacks { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Weapon[] Weapons { get; set; }
         public int RotateSpeedDS { get; set; } = 360;
         public bool[] Directions { get; set; } = new bool[4];
+        public World World { get; }
+        public int CurrentWeapon { get; set; }
+        public bool IsAttacks { get; set; }
 
 
         public CircleShape PlayerSprite { get; set; }
         public CircleShape DirectionSprite { get; set; }
 
-        public Player(IntPair startPosition)
+        public Player(World world, IntPair startPosition)
         {
+            World = world;
+
+            Weapons = new Weapon[2];
+            Weapons[0] = new Pistol(World);
+
             PlayerSprite = new CircleShape(IntersectionRadius, 3)
             {
                 FillColor = Color.Green,
@@ -52,7 +60,7 @@ namespace G19.Source
 
         public void Attack()
         {
-            throw new NotImplementedException();
+            Weapons[CurrentWeapon].Fire();
         }
 
         public void Control()
@@ -70,6 +78,14 @@ namespace G19.Source
         public void Intersect()
         {
             throw new NotImplementedException();
+        }
+
+        public void Update(Time time)
+        {
+            if (IsMoving)
+                Move(time);
+            if (IsAttacks)
+                Attack();
         }
 
         public void Move(Time time)

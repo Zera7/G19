@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace G19.Source.Interface
         int Team { get; set; }
         IntPair Coordinates { get; set; }
         float IntersectionRadius { get; set; }
+        World World { get; }
 
+        void Update(Time time);
     }
 }

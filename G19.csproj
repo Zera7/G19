@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="Source\Content.cs" />
     <Compile Include="Source\Cursor.cs" />
+    <Compile Include="Source\Entity\Bullets\Bullet.cs" />
+    <Compile Include="Source\Entity\Bullets\DefaultBullet.cs" />
     <Compile Include="Source\Event\SFEventHandler.cs" />
     <Compile Include="Source\Event\GameSFEventHandler.cs" />
     <Compile Include="Source\Game.cs" />
@@ -67,9 +69,10 @@
     <Compile Include="Source\Interface\IGameObject.cs" />
     <Compile Include="Source\Interface\IMovable.cs" />
     <Compile Include="Source\Interface\ISlavable.cs" />
-    <Compile Include="Source\Model\AttackCharacteristics.cs" />
-    <Compile Include="Source\Model\Size.cs" />
-    <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\Weapons\Pistol.cs" />
+    <Compile Include="Source\Weapons\Weapon.cs" />
+    <Compile Include="Source\Model\IntPair.cs" />
+    <Compile Include="Source\Entity\Player.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\World.cs" />
@@ -80,7 +83,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\Entity\Monsters\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Background\snow.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -9,7 +9,7 @@ using SFML.Graphics;
 
 namespace G19.Source.Event
 {
-    public class SFEventHandler : ISFEventHandler
+    public abstract class SFEventHandler : ISFEventHandler
     {
         public RenderWindow Window { get; }
         public Cursor Cursor { get; }

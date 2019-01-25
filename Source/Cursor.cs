@@ -18,7 +18,7 @@ namespace G19.Source
     {
         public Cursor(int startX, int startY, View view)
         {
-            this.View = view;
+            View = view;
             Sprites = new Dictionary<CursorState, Sprite>();
 
             WPosition = new Vector2f(startX, startY);

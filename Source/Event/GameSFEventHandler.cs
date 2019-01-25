@@ -78,5 +78,15 @@ namespace G19.Source.Event
 
             Cursor.Move(e.X, e.Y);
         }
+
+        public override void HandleMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            World.Player.IsAttacks = true;   
+        }
+
+        public override void HandleMouseButtonReleased(object sender, MouseButtonEventArgs e)
+        {
+            World.Player.IsAttacks = false;
+        }
     }
 }

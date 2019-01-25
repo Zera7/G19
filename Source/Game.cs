@@ -12,14 +12,6 @@ namespace G19.Source
 {
     public class Game
     {
-        public World World { get; set; }
-
-        public GameSFEventHandler EventHandler { get; set; }
-
-        public Clock Clock = new Clock();
-
-
-
         public Game()
         {
             World = new World("snow");
@@ -32,6 +24,12 @@ namespace G19.Source
 
             Program.Cursor.State = CursorState.Aim;
         }
+
+        public World World { get; set; }
+
+        public GameSFEventHandler EventHandler { get; set; }
+
+        public Clock Clock = new Clock();
 
         public void Draw()
         {
