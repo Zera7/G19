@@ -11,7 +11,7 @@ namespace G19.Source.Entity
 {
     public class DefaultBullet : Bullet
     {
-        public DefaultBullet(int team, Vector2f position, float angle, World world) : base(team, position, angle, world, 500)
+        public DefaultBullet(int team, Vector2f position, float angle, World world) : base(team, position, angle, world, 1000)
         {
         }
     }

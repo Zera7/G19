@@ -64,11 +64,13 @@
     <Compile Include="Source\Event\SFEventHandler.cs" />
     <Compile Include="Source\Event\GameSFEventHandler.cs" />
     <Compile Include="Source\Game.cs" />
+    <Compile Include="Source\Interface\ILayer.cs" />
     <Compile Include="Source\Interface\ISFEventHandler.cs" />
     <Compile Include="Source\Interface\IAttackable.cs" />
     <Compile Include="Source\Interface\IGameObject.cs" />
     <Compile Include="Source\Interface\IMovable.cs" />
     <Compile Include="Source\Interface\ISlavable.cs" />
+    <Compile Include="Source\Weapons\AssaultRifle.cs" />
     <Compile Include="Source\Weapons\Pistol.cs" />
     <Compile Include="Source\Weapons\Weapon.cs" />
     <Compile Include="Source\Model\IntPair.cs" />

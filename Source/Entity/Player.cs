@@ -37,7 +37,7 @@ namespace G19.Source.Entity
             World = world;
 
             Weapons = new Weapon[2];
-            Weapons[0] = new Pistol(World);
+            Weapons[0] = new AssaultRifle(World);
 
             PlayerSprite = new CircleShape(IntersectionRadius, 3)
             {

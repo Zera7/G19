@@ -28,7 +28,28 @@ namespace G19.Source.Weapons
         public float AttackIntervalInSeconds { get; set; }
         public World World { get; }
         public DateTime LastShotTime { get; set; }
+        public DateTime LastReloadTime { get; set; }
 
-        public abstract void Fire();
+        public virtual void Fire()
+        {
+            if (DateTime.Now - LastShotTime > new TimeSpan(0, 0, 0, 0, (int)(AttackIntervalInSeconds * 1000)) &&
+                DateTime.Now - LastReloadTime > new TimeSpan(0, 0, 0, 0, (int)(ReloadTimeInSeconds * 1000)))
+            {
+                var bullet = new DefaultBullet(World.Player.Team, World.Player.Position, World.Player.Angle, World);
+                World.Bullets.AddLast(bullet);
+                LastShotTime = DateTime.Now;
+
+                PatronCount -= 1;
+
+                if (PatronCount <= 0)
+                    Reload();
+            }
+        }
+
+        public void Reload()
+        {
+            LastReloadTime = DateTime.Now;
+            PatronCount = MaxPatronCount;
+        }
     }
 }

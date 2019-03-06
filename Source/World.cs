@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace G19.Source
 {
-    public class World : Transformable, Drawable
+    public class World : Transformable, ILayer
     {
         public const int CellSize = 50;
 
@@ -19,6 +19,7 @@ namespace G19.Source
 
         public Player Player { get; set; }
         public LinkedList<Bullet> Bullets { get; set; } = new LinkedList<Bullet>();
+        public List<ILayer> Layers { get; set; }
 
         public IntPair StartPosition;
         public Sprite Background;
@@ -69,6 +70,16 @@ namespace G19.Source
             target.Draw(Player, states);
             foreach (var bullet in Bullets)
                 target.Draw(bullet, states);
+        }
+
+        public void ShowLayer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HideLayer()
+        {
+            throw new NotImplementedException();
         }
     }
 }

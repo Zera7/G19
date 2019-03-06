@@ -1,4 +1,5 @@
 ﻿using G19.Source.Event;
+using G19.Source.Interface;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace G19.Source
 {
-    public class Game
+    public class Game: ILayer
     {
         public Game()
         {
@@ -19,6 +20,8 @@ namespace G19.Source
             EventHandler = new GameSFEventHandler(Program.Window, World, Program.Cursor);
             EventHandler.Connect();
 
+            Layers.Add(World);
+
             Program.View.Size = new Vector2f(Program.Width, Program.Height);
             Program.View.Center = new Vector2f(World.StartPosition.X, World.StartPosition.Y);
 
@@ -26,21 +29,37 @@ namespace G19.Source
         }
 
         public World World { get; set; }
+        public List<ILayer> Layers { get; set; } = new List<ILayer>();
 
         public GameSFEventHandler EventHandler { get; set; }
 
-        public Clock Clock = new Clock();
-
-        public void Draw()
+        public void HideLayer()
         {
-            var a = Clock.Restart();
-            World.Update(a);
+            throw new NotImplementedException();
+        }
+
+        public void ShowLayer()
+        {
+            throw new NotImplementedException();
+        }
+
+        //public void Draw()
+        //{
+        //    //Program.Window.Draw(World);
+        //    //Program.Window.Draw(Program.Cursor);
+        //}
+
+        public void Draw(RenderTarget target, RenderStates states)
+        {
+            target.Draw(World);
+        }
+
+        public void Update(Time time)
+        {
+            World.Update(time);
 
             if (World.Player.IsMoving)
                 Program.View.Center = World.Player.Position;
-
-            Program.Window.Draw(World);
-            Program.Window.Draw(Program.Cursor);
         }
     }
 }
