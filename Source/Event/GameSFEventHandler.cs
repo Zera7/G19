@@ -34,7 +34,6 @@ namespace G19.Source.Event
                     World.Player.Directions[2] = true;
                     World.Player.IsMoving = true;
                     break;
-
                 case Keyboard.Key.Down:
                     World.Player.Directions[3] = true;
                     World.Player.IsMoving = true;

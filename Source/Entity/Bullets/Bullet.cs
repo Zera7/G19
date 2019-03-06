@@ -11,7 +11,7 @@ namespace G19.Source.Entity
 {
     public abstract class Bullet : Transformable, IMovable
     {
-        public Bullet(int team, Vector2f position, float angle, World world, int speedPS, int radius = 8)
+        public Bullet(int team, Vector2f position, float angle, World world, int speedPS, int power, int radius = 8)
         {
             this.Team = team;
             this.Position = position;
@@ -31,15 +31,18 @@ namespace G19.Source.Entity
 
         public bool IsMoving { get; set; } = true;
         public int SpeedPS { get; set; }
+        public int Power { get; set; }
         public int RotateSpeedDS { get; set; }
         public float Angle { get; set; }
         public int Team { get; set; }
         public IntPair Coordinates { get; set; }
         public float IntersectionRadius { get; set; }
+        public bool IsRemoved { get; set; }
 
         public CircleShape Sprite { get; set; }
 
         public World World { get; }
+
 
         public bool IsInsideMap
         {

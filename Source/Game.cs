@@ -43,12 +43,6 @@ namespace G19.Source
             throw new NotImplementedException();
         }
 
-        //public void Draw()
-        //{
-        //    //Program.Window.Draw(World);
-        //    //Program.Window.Draw(Program.Cursor);
-        //}
-
         public void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(World);

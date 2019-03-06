@@ -13,13 +13,16 @@ namespace G19.Source
     public class World : Transformable, ILayer
     {
         public const int CellSize = 50;
+        public const int MaxRemovedBulletsCount = 100;
 
         public IntPair WorldSize { get; set; } = new IntPair(1920, 1080);
         public LinkedList<IGameObject>[][] CellMap { get; set; }
 
         public Player Player { get; set; }
-        public LinkedList<Bullet> Bullets { get; set; } = new LinkedList<Bullet>();
         public List<ILayer> Layers { get; set; }
+
+        public LinkedList<Bullet> Bullets { get; set; } = new LinkedList<Bullet>();
+        public int RemovedBulletsCount { get; set; }
 
         public IntPair StartPosition;
         public Sprite Background;
@@ -53,13 +56,30 @@ namespace G19.Source
             Program.Cursor.Move();
             Player.Update(time);
 
+            var isNeedToClearBulletList = RemovedBulletsCount >= MaxRemovedBulletsCount;
+            var bufferBulletsList = new LinkedList<Bullet>();
+
             var currentBullet = Bullets.First;
             while (currentBullet != null)
             {
-                currentBullet.Value.Update(time);
-                if (!currentBullet.Value.IsInsideMap)
-                    Bullets.Remove(currentBullet);
+                if (!currentBullet.Value.IsRemoved)
+                {
+                    currentBullet.Value.Update(time);
+                    if (!currentBullet.Value.IsInsideMap)
+                    {
+                        currentBullet.Value.IsRemoved = true;
+                        RemovedBulletsCount += 1;
+                    }
+                    else
+                        bufferBulletsList.AddLast(currentBullet.Value);
+                }
                 currentBullet = currentBullet.Next;
+            }
+
+            if (RemovedBulletsCount > MaxRemovedBulletsCount)
+            {
+                Bullets = bufferBulletsList;
+                RemovedBulletsCount = 0;
             }
         }
 
@@ -69,7 +89,8 @@ namespace G19.Source
             target.Draw(Background); 
             target.Draw(Player, states);
             foreach (var bullet in Bullets)
-                target.Draw(bullet, states);
+                if (!bullet.IsRemoved)
+                    target.Draw(bullet, states);
         }
 
         public void ShowLayer()

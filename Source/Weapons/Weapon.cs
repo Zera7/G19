@@ -10,9 +10,10 @@ namespace G19.Source.Weapons
 {
     public abstract class Weapon
     {
-        public Weapon(World world, int power, float attackInterval, float reloadTime, int maxPatronCount)
+        public Weapon(World world, int power, int bulletSpeed, float attackInterval, float reloadTime, int maxPatronCount)
         {
             this.Power = power;
+            this.BulleetSpeed = bulletSpeed;
             this.AttackIntervalInSeconds = attackInterval;
             this.ReloadTimeInSeconds = reloadTime;
             this.MaxPatronCount = maxPatronCount;
@@ -21,7 +22,8 @@ namespace G19.Source.Weapons
         }
 
         public int Power { get; set; }
-        public int Distance { get; set; }  // Радиус атаки, 0 - неограничен
+        public int BulleetSpeed { get; set; }
+        public int Distance { get; set; }  // Радиус атаки, 0 - не ограничен
         public int PatronCount { get; set; }
         public int MaxPatronCount { get; set; }
         public float ReloadTimeInSeconds { get; set; }
@@ -35,7 +37,7 @@ namespace G19.Source.Weapons
             if (DateTime.Now - LastShotTime > new TimeSpan(0, 0, 0, 0, (int)(AttackIntervalInSeconds * 1000)) &&
                 DateTime.Now - LastReloadTime > new TimeSpan(0, 0, 0, 0, (int)(ReloadTimeInSeconds * 1000)))
             {
-                var bullet = new DefaultBullet(World.Player.Team, World.Player.Position, World.Player.Angle, World);
+                var bullet = GetBullet();
                 World.Bullets.AddLast(bullet);
                 LastShotTime = DateTime.Now;
 
@@ -45,6 +47,8 @@ namespace G19.Source.Weapons
                     Reload();
             }
         }
+
+        public abstract Bullet GetBullet();
 
         public void Reload()
         {
