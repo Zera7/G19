@@ -57,10 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Source\Content.cs" />
     <Compile Include="Source\Cursor.cs" />
     <Compile Include="Source\Entity\Bullets\Bullet.cs" />
     <Compile Include="Source\Entity\Bullets\DefaultBullet.cs" />
+    <Compile Include="Source\Entity\Bullets\LavaBullet.cs" />
     <Compile Include="Source\Event\SFEventHandler.cs" />
     <Compile Include="Source\Event\GameSFEventHandler.cs" />
     <Compile Include="Source\Game.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Source\Interface\IMovable.cs" />
     <Compile Include="Source\Interface\ISlavable.cs" />
     <Compile Include="Source\Weapons\AssaultRifle.cs" />
+    <Compile Include="Source\Weapons\LavaGun.cs" />
     <Compile Include="Source\Weapons\Pistol.cs" />
     <Compile Include="Source\Weapons\Weapon.cs" />
     <Compile Include="Source\Model\IntPair.cs" />
@@ -83,6 +86,9 @@
     <None Include="App.config" />
     <None Include="Fonts\Oswald-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\LightingShader.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -21,13 +21,13 @@ namespace G19.Source
             View = view;
             Sprites = new Dictionary<CursorState, Sprite>();
 
-            WPosition = new Vector2f(startX, startY);
+            LocalPosition = new Vector2f(startX, startY);
 
             var spriteRadius = 10;
             Sprite = new CircleShape(spriteRadius, 16)
             {
                 FillColor = new Color(160, 160, 0, 200),
-                Position = TransformToGlobal(WPosition),
+                Position = TransformToGlobal(LocalPosition),
                 Origin = new Vector2f(spriteRadius, spriteRadius)
             };
         }
@@ -54,32 +54,37 @@ namespace G19.Source
         }
 
         public View View { get; }
-        public Vector2f WPosition { get; set; }
+        public Vector2f LocalPosition { get; set; }
+        public Vector2f GlobalPosition
+        {
+            get
+            {
+                return TransformToGlobal(LocalPosition);
+            }
+        }
 
         Dictionary<CursorState, Sprite> Sprites { get; set; }
         CircleShape Sprite { get; set; }
 
         public void Move(int windowX, int windowY)
         {
-            WPosition = new Vector2f(windowX, windowY);
-            Sprite.Position = TransformToGlobal(WPosition);
+            LocalPosition = new Vector2f(windowX, windowY);
+            Sprite.Position = GlobalPosition;
         }
 
         public void Move()
         {
-            Sprite.Position = TransformToGlobal(WPosition);
+            Sprite.Position = TransformToGlobal(LocalPosition);
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(Sprite);
+            target.Draw(Sprite, states);
         }
 
         Vector2f TransformToGlobal(Vector2f coords)
         {
-            return new Vector2f(
-                (int)(View.Center.X - View.Size.X / 2) + coords.X,
-                (int)(View.Center.Y - View.Size.Y / 2) + coords.Y);
+            return View.GetCoordinates() + coords;
         }
     }
 }

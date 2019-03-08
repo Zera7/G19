@@ -15,7 +15,7 @@ namespace G19.Source.Entity
         {
             this.Team = team;
             this.Position = position;
-            this.Angle = angle;
+            this.MoveAngle = angle;
             this.World = world;
             this.IntersectionRadius = radius;
             this.SpeedPS = speedPS;
@@ -23,7 +23,7 @@ namespace G19.Source.Entity
             Sprite = new CircleShape(IntersectionRadius, 3)
             {
                 FillColor = Color.Red,
-                Rotation = 90 - Angle,
+                Rotation = 90 - MoveAngle,
                 Position = this.Position,
                 Origin = new Vector2f(IntersectionRadius, IntersectionRadius)
             };
@@ -33,7 +33,7 @@ namespace G19.Source.Entity
         public int SpeedPS { get; set; }
         public int Power { get; set; }
         public int RotateSpeedDS { get; set; }
-        public float Angle { get; set; }
+        public float MoveAngle { get; set; }
         public int Team { get; set; }
         public IntPair Coordinates { get; set; }
         public float IntersectionRadius { get; set; }
@@ -55,18 +55,22 @@ namespace G19.Source.Entity
             }
         }
     
-        public void Draw(RenderTarget target, RenderStates states)
+        public void Draw(RenderTarget target, ref RenderStates states)
         {
             //states.Transform *= Transform;
-
+            DrawShaders(target, ref states);
             target.Draw(Sprite, states);
+        }
+
+        public virtual void DrawShaders(RenderTarget target, ref RenderStates states)
+        {
         }
 
         public virtual void Intersect()
         {
         }
 
-        public void Update(Time time)
+        public virtual void Update(Time time)
         {
             Move(time);
             Intersect();
@@ -75,8 +79,8 @@ namespace G19.Source.Entity
         public virtual void Move(Time time)
         {
             Position = new Vector2f(
-                Position.X + (float)Math.Cos(Angle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
-                Position.Y - (float)Math.Sin(Angle * Math.PI / 180) * SpeedPS * time.AsSeconds());
+                Position.X + (float)Math.Cos(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
+                Position.Y - (float)Math.Sin(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds());
 
             Sprite.Position = Position;
         }

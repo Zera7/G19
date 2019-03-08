@@ -69,13 +69,18 @@ namespace G19.Source.Event
         {
             base.HandleMouseMoved(sender, e);
 
-            float angle = (float)(Math.Atan2(
-                Program.View.Center.Y - World.Player.Position.Y - e.Y + Program.View.Size.Y / 2, 
-                Program.View.Center.X - World.Player.Position.X - e.X + Program.View.Size.X / 2)
-                / Math.PI * 180) - 90;
-            World.Player.PlayerSprite.Rotation = angle < 0 ? angle + 360 : angle;
-
             Cursor.Move(e.X, e.Y);
+
+            float angle = -(float)(Math.Atan2(
+                Cursor.GlobalPosition.Y - World.Player.Position.Y,
+                Cursor.GlobalPosition.X - World.Player.Position.X) 
+                / Math.PI * 180);
+
+            if (angle < 0)
+                angle += 360;
+            
+            World.Player.PlayerSprite.Rotation = -((angle - 90 < 0) ? angle + 360 - 90 : angle - 90);
+            World.Player.Angle = angle;
         }
 
         public override void HandleMouseButtonPressed(object sender, MouseButtonEventArgs e)

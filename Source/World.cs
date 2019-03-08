@@ -15,7 +15,10 @@ namespace G19.Source
         public const int CellSize = 50;
         public const int MaxRemovedBulletsCount = 100;
 
-        public IntPair WorldSize { get; set; } = new IntPair(1920, 1080);
+        public static Sprite Background;
+        public static RenderTexture ShaderTexture;
+
+        public static IntPair WorldSize { get; set; } = new IntPair(1920, 1080);
         public LinkedList<IGameObject>[][] CellMap { get; set; }
 
         public Player Player { get; set; }
@@ -25,7 +28,8 @@ namespace G19.Source
         public int RemovedBulletsCount { get; set; }
 
         public IntPair StartPosition;
-        public Sprite Background;
+        
+        Sprite ShaderSprite { get; set; }
         
         public World(string backgroundName)
         {
@@ -35,6 +39,9 @@ namespace G19.Source
                 Content.Backgrounds[backgroundName], 
                 new IntRect(0, 0, WorldSize.X, WorldSize.Y));
             Background.Texture.Repeated = true;
+
+            ShaderTexture = new RenderTexture((uint)WorldSize.X, (uint)WorldSize.Y);
+            ShaderSprite = new Sprite(ShaderTexture.Texture);
 
             Player = new Player(this, StartPosition);
 
@@ -85,9 +92,12 @@ namespace G19.Source
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+            RenderStates shaderStates = new RenderStates(states);
+
             states.Transform *= Transform;
             target.Draw(Background); 
             target.Draw(Player, states);
+            target.Draw(ShaderSprite, shaderStates);
             foreach (var bullet in Bullets)
                 if (!bullet.IsRemoved)
                     target.Draw(bullet, states);

@@ -16,6 +16,7 @@ namespace G19.Source.Entity
         public const int DirectionRemoteness = 70;
 
         public int SpeedPS { get; set; } = 120;
+        public float MoveAngle { get; set; }
         public float Angle { get; set; }
         public int Team { get; set; } = 1;
         public IntPair Coordinates { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -37,7 +38,7 @@ namespace G19.Source.Entity
             World = world;
 
             Weapons = new Weapon[2];
-            Weapons[0] = new AssaultRifle(World);
+            Weapons[0] = new LavaGun(World);
 
             PlayerSprite = new CircleShape(IntersectionRadius, 3)
             {
@@ -91,10 +92,10 @@ namespace G19.Source.Entity
         public void Move(Time time)
         {
             UpdateAngle(time);
-            DirectionSprite.Rotation = 90 - Angle;
+            DirectionSprite.Rotation = 90 - MoveAngle;
             Position = new Vector2f(  
-                    Program.View.Center.X + (float)Math.Cos(Angle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
-                    Program.View.Center.Y - (float)Math.Sin(Angle * Math.PI / 180) * SpeedPS * time.AsSeconds());
+                    Program.View.Center.X + (float)Math.Cos(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
+                    Program.View.Center.Y - (float)Math.Sin(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds());
 
             PlayerSprite.Position = Position;
             DirectionSprite.Position = Position;
@@ -103,30 +104,30 @@ namespace G19.Source.Entity
         private void UpdateAngle(Time time)
         {
             var newTargetAngle = GetNewTargetAngle();
-            var deltaAngle = Math.Abs(newTargetAngle - Angle);
+            var deltaAngle = Math.Abs(newTargetAngle - MoveAngle);
             var rotateAngle = RotateSpeedDS * time.AsSeconds();
 
             if (rotateAngle >= deltaAngle)
-                Angle = newTargetAngle;
-            else if (newTargetAngle > Angle)
+                MoveAngle = newTargetAngle;
+            else if (newTargetAngle > MoveAngle)
             {
                 if (deltaAngle < 180)
-                    Angle += rotateAngle;
+                    MoveAngle += rotateAngle;
                 else
-                    Angle -= rotateAngle;
+                    MoveAngle -= rotateAngle;
             }
             else
             {
                 if (deltaAngle < 180)
-                    Angle -= rotateAngle;
+                    MoveAngle -= rotateAngle;
                 else
-                    Angle += rotateAngle;
+                    MoveAngle += rotateAngle;
             }
 
-            if (Angle < 0)
-                Angle = 360 + Angle;
-            else if (Angle > 360)
-                Angle -= 360;
+            if (MoveAngle < 0)
+                MoveAngle += 360;
+            else if (MoveAngle > 360)
+                MoveAngle -= 360;
         }
 
         public float GetNewTargetAngle()

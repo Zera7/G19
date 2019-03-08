@@ -39,6 +39,8 @@ namespace G19.Source
 
             while (Window.IsOpen)
             {
+                Window.SetView(View);
+
                 var time = Clock.Restart();
 
                 Window.DispatchEvents();
@@ -53,7 +55,6 @@ namespace G19.Source
 
                 Window.Draw(Cursor);
 
-                Window.SetView(View);
 
                 Window.Display();
             }
