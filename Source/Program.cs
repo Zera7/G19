@@ -15,8 +15,6 @@ namespace G19.Source
         public const int Width = 800;
         public const int Height = 600;
 
-        public static List<ILayer> Layers { get; set; } = new List<ILayer>();
-
         public static RenderWindow Window;
         public static View View;
         public static Cursor Cursor;
@@ -35,7 +33,6 @@ namespace G19.Source
             Window.Resized += Resize;
 
             var game = new Game();
-            Layers.Add(game);
 
             while (Window.IsOpen)
             {
@@ -46,15 +43,11 @@ namespace G19.Source
                 Window.DispatchEvents();
 
                 Window.Clear(Color.Black);
+                game.Update(time);
 
-                foreach (var layer in Layers)
-                    layer.Update(time);
-
-                foreach (var layer in Layers)
-                    Window.Draw(layer);
+                game.Draw();
 
                 Window.Draw(Cursor);
-
 
                 Window.Display();
             }

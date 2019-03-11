@@ -66,6 +66,20 @@ namespace G19.Source
         Dictionary<CursorState, Sprite> Sprites { get; set; }
         CircleShape Sprite { get; set; }
 
+        public float GetAngleWithCursor(float x, float y)
+        {
+
+            float angle = -(float)(Math.Atan2(
+                GlobalPosition.Y - y,
+                GlobalPosition.X - x)
+                / Math.PI * 180);
+
+            if (angle < 0)
+                angle += 360;
+
+            return angle;
+        }
+
         public void Move(int windowX, int windowY)
         {
             LocalPosition = new Vector2f(windowX, windowY);

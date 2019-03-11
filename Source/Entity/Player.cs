@@ -29,7 +29,6 @@ namespace G19.Source.Entity
         public int CurrentWeapon { get; set; }
         public bool IsAttacks { get; set; }
 
-
         public CircleShape PlayerSprite { get; set; }
         public CircleShape DirectionSprite { get; set; }
 
@@ -93,12 +92,24 @@ namespace G19.Source.Entity
         {
             UpdateAngle(time);
             DirectionSprite.Rotation = 90 - MoveAngle;
-            Position = new Vector2f(  
-                    Program.View.Center.X + (float)Math.Cos(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
-                    Program.View.Center.Y - (float)Math.Sin(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds());
+
+            var newPosition = new Vector2f(  
+                    Position.X + (float)Math.Cos(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
+                    Position.Y - (float)Math.Sin(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds());
+
+            if (newPosition.X - IntersectionRadius < 0) newPosition.X = IntersectionRadius;
+            else if (newPosition.X + IntersectionRadius > World.WorldSize.X) newPosition.X = World.WorldSize.X - IntersectionRadius;
+            if (newPosition.Y - IntersectionRadius < 0) newPosition.Y = IntersectionRadius;
+            else if (newPosition.Y + IntersectionRadius > World.WorldSize.Y) newPosition.Y = World.WorldSize.Y - IntersectionRadius;
+
+            Position = newPosition;
 
             PlayerSprite.Position = Position;
             DirectionSprite.Position = Position;
+
+            var angle = Program.Cursor.GetAngleWithCursor(Position.X, Position.Y);
+            PlayerSprite.Rotation = -((angle - 90 < 0) ? angle + 360 - 90 : angle - 90);
+            Angle = angle;
         }
 
         private void UpdateAngle(Time time)

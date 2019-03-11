@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace G19.Source
 {
-    public class Game: ILayer
+    public class Game
     {
         public Game()
         {
@@ -20,7 +20,7 @@ namespace G19.Source
             EventHandler = new GameSFEventHandler(Program.Window, World, Program.Cursor);
             EventHandler.Connect();
 
-            Layers.Add(World);
+            SubLayers.Add(World);
 
             Program.View.Size = new Vector2f(Program.Width, Program.Height);
             Program.View.Center = new Vector2f(World.StartPosition.X, World.StartPosition.Y);
@@ -29,31 +29,22 @@ namespace G19.Source
         }
 
         public World World { get; set; }
-        public List<ILayer> Layers { get; set; } = new List<ILayer>();
+        public List<ILayer> SubLayers { get; set; } = new List<ILayer>();
 
         public GameSFEventHandler EventHandler { get; set; }
 
-        public void HideLayer()
+        public void Draw()
         {
-            throw new NotImplementedException();
-        }
-
-        public void ShowLayer()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Draw(RenderTarget target, RenderStates states)
-        {
-            target.Draw(World);
+            Program.Window.Draw(World);
         }
 
         public void Update(Time time)
         {
             World.Update(time);
+            Program.Cursor.Move();
 
             if (World.Player.IsMoving)
-                Program.View.Center = World.Player.Position;
+                Program.View.SetPositionWithConstraints(World.WorldSize, World.Player.Position);
         }
     }
 }

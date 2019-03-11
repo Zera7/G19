@@ -9,7 +9,7 @@ using SFML.System;
 
 namespace G19.Source.Entity
 {
-    public abstract class Bullet : Transformable, IMovable
+    public abstract class Bullet : Layer, IMovable
     {
         public Bullet(int team, Vector2f position, float angle, World world, int speedPS, int power, int radius = 8)
         {
@@ -20,7 +20,7 @@ namespace G19.Source.Entity
             this.IntersectionRadius = radius;
             this.SpeedPS = speedPS;
 
-            Sprite = new CircleShape(IntersectionRadius, 3)
+            Background = new CircleShape(IntersectionRadius, 3)
             {
                 FillColor = Color.Red,
                 Rotation = 90 - MoveAngle,
@@ -29,21 +29,22 @@ namespace G19.Source.Entity
             };
         }
 
+        // Layer Implementation
+        public override Drawable Background { get; set; }
+
+        // IMovable Interface
         public bool IsMoving { get; set; } = true;
         public int SpeedPS { get; set; }
-        public int Power { get; set; }
         public int RotateSpeedDS { get; set; }
         public float MoveAngle { get; set; }
+
+        // IGameObject Interface
         public int Team { get; set; }
         public IntPair Coordinates { get; set; }
         public float IntersectionRadius { get; set; }
-        public bool IsRemoved { get; set; }
-
-        public CircleShape Sprite { get; set; }
-
         public World World { get; }
 
-
+        public int Power { get; set; }
         public bool IsInsideMap
         {
             get
@@ -54,26 +55,21 @@ namespace G19.Source.Entity
                     Position.Y < World.WorldSize.Y + IntersectionRadius;
             }
         }
-    
-        public void Draw(RenderTarget target, ref RenderStates states)
-        {
-            //states.Transform *= Transform;
-            DrawShaders(target, ref states);
-            target.Draw(Sprite, states);
-        }
 
-        public virtual void DrawShaders(RenderTarget target, ref RenderStates states)
-        {
-        }
-
-        public virtual void Intersect()
-        {
-        }
-
-        public virtual void Update(Time time)
+        public override void Update(Time time)
         {
             Move(time);
             Intersect();
+
+            if (!IsInsideMap)
+                IsRemoved = true;
+        }
+
+        public override void Draw(RenderTarget target, RenderStates states)
+        {
+            //states.Transform *= Transform;
+            //DrawShaders(target, ref states);
+            target.Draw(Background, states);
         }
 
         public virtual void Move(Time time)
@@ -82,7 +78,11 @@ namespace G19.Source.Entity
                 Position.X + (float)Math.Cos(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds(),
                 Position.Y - (float)Math.Sin(MoveAngle * Math.PI / 180) * SpeedPS * time.AsSeconds());
 
-            Sprite.Position = Position;
+            ((CircleShape)Background).Position = Position;
+        }
+
+        public virtual void Intersect()
+        {
         }
     }
 }

@@ -10,38 +10,28 @@ using System.Threading.Tasks;
 
 namespace G19.Source
 {
-    public class World : Transformable, ILayer
+    public class World : Layer
     {
         public const int CellSize = 50;
         public const int MaxRemovedBulletsCount = 100;
 
-        public static Sprite Background;
-        public static RenderTexture ShaderTexture;
+        public override Drawable Background { get; set; }
 
         public static IntPair WorldSize { get; set; } = new IntPair(1920, 1080);
         public LinkedList<IGameObject>[][] CellMap { get; set; }
 
+        public IntPair StartPosition { get; set; }
+
         public Player Player { get; set; }
-        public List<ILayer> Layers { get; set; }
 
-        public LinkedList<Bullet> Bullets { get; set; } = new LinkedList<Bullet>();
-        public int RemovedBulletsCount { get; set; }
-
-        public IntPair StartPosition;
-        
-        Sprite ShaderSprite { get; set; }
-        
         public World(string backgroundName)
         {
             StartPosition = new IntPair(WorldSize.X / 2, WorldSize.Y / 2);
 
             Background = new Sprite(
-                Content.Backgrounds[backgroundName], 
+                Content.Backgrounds[backgroundName],
                 new IntRect(0, 0, WorldSize.X, WorldSize.Y));
-            Background.Texture.Repeated = true;
-
-            ShaderTexture = new RenderTexture((uint)WorldSize.X, (uint)WorldSize.Y);
-            ShaderSprite = new Sprite(ShaderTexture.Texture);
+            ((Sprite)Background).Texture.Repeated = true;
 
             Player = new Player(this, StartPosition);
 
@@ -58,59 +48,17 @@ namespace G19.Source
                     CellMap[i][j] = new LinkedList<IGameObject>();
         }
 
-        public void Update(Time time)
+        public override void Update(Time time)
         {
-            Program.Cursor.Move();
-            Player.Update(time);
-
-            var isNeedToClearBulletList = RemovedBulletsCount >= MaxRemovedBulletsCount;
-            var bufferBulletsList = new LinkedList<Bullet>();
-
-            var currentBullet = Bullets.First;
-            while (currentBullet != null)
-            {
-                if (!currentBullet.Value.IsRemoved)
-                {
-                    currentBullet.Value.Update(time);
-                    if (!currentBullet.Value.IsInsideMap)
-                    {
-                        currentBullet.Value.IsRemoved = true;
-                        RemovedBulletsCount += 1;
-                    }
-                    else
-                        bufferBulletsList.AddLast(currentBullet.Value);
-                }
-                currentBullet = currentBullet.Next;
-            }
-
-            if (RemovedBulletsCount > MaxRemovedBulletsCount)
-            {
-                Bullets = bufferBulletsList;
-                RemovedBulletsCount = 0;
-            }
+            base.Update(time);
+            Player.Update(time); // Позже добавить в лист SubLayers
         }
 
-        public void Draw(RenderTarget target, RenderStates states)
+        public override void Draw(RenderTarget target, RenderStates states)
         {
-            RenderStates shaderStates = new RenderStates(states);
+            base.Draw(target, states);
 
-            states.Transform *= Transform;
-            target.Draw(Background); 
-            target.Draw(Player, states);
-            target.Draw(ShaderSprite, shaderStates);
-            foreach (var bullet in Bullets)
-                if (!bullet.IsRemoved)
-                    target.Draw(bullet, states);
-        }
-
-        public void ShowLayer()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void HideLayer()
-        {
-            throw new NotImplementedException();
+            target.Draw(Player, states); // Позже добавить в лист SubLayers
         }
     }
 }

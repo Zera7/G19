@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace G19.Source.Interface
 {
-    public interface ILayer: Drawable
+    public interface ILayer: Drawable, IShaderDrawable
     {
-        List<ILayer> Layers { get; set; }
+        Dictionary<string, ExtendedLinkedList<ILayer>> SubLayers { get; set; }
+        Drawable Background { get; set; }
+        bool IsRemoved { get; set; }
 
         void Update(Time time);
-        void ShowLayer();
-        void HideLayer();
+        void ShowLayer(Time time);
+        void HideLayer(Time time);
     }
 }

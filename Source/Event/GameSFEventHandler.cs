@@ -69,16 +69,8 @@ namespace G19.Source.Event
         {
             base.HandleMouseMoved(sender, e);
 
-            Cursor.Move(e.X, e.Y);
+            var angle = Cursor.GetAngleWithCursor(World.Player.Position.X, World.Player.Position.Y);
 
-            float angle = -(float)(Math.Atan2(
-                Cursor.GlobalPosition.Y - World.Player.Position.Y,
-                Cursor.GlobalPosition.X - World.Player.Position.X) 
-                / Math.PI * 180);
-
-            if (angle < 0)
-                angle += 360;
-            
             World.Player.PlayerSprite.Rotation = -((angle - 90 < 0) ? angle + 360 - 90 : angle - 90);
             World.Player.Angle = angle;
         }

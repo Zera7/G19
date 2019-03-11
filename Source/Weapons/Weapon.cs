@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using G19.Source.Interface;
 using System.Threading.Tasks;
 
 namespace G19.Source.Weapons
@@ -38,7 +39,11 @@ namespace G19.Source.Weapons
                 DateTime.Now - LastReloadTime > new TimeSpan(0, 0, 0, 0, (int)(ReloadTimeInSeconds * 1000)))
             {
                 var bullet = GetBullet();
-                World.Bullets.AddLast(bullet);
+                // Вынести в метод
+                if (!World.SubLayers.ContainsKey("1")) 
+                    World.SubLayers["1"] = new ExtendedLinkedList<ILayer>();
+                World.SubLayers["1"].AddLast(bullet);
+                // !Вынести в метод
                 LastShotTime = DateTime.Now;
 
                 PatronCount -= 1;

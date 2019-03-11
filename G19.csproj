@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ViewExtensions.cs" />
+    <Compile Include="Source\Extensions\ViewExtensions.cs" />
     <Compile Include="Source\Content.cs" />
     <Compile Include="Source\Cursor.cs" />
     <Compile Include="Source\Entity\Bullets\Bullet.cs" />
@@ -71,7 +71,10 @@
     <Compile Include="Source\Interface\IAttackable.cs" />
     <Compile Include="Source\Interface\IGameObject.cs" />
     <Compile Include="Source\Interface\IMovable.cs" />
+    <Compile Include="Source\Interface\IShaderDrawer.cs" />
     <Compile Include="Source\Interface\ISlavable.cs" />
+    <Compile Include="Source\Model\ExtendedLinkedList.cs" />
+    <Compile Include="Source\System\Layer.cs" />
     <Compile Include="Source\Weapons\AssaultRifle.cs" />
     <Compile Include="Source\Weapons\LavaGun.cs" />
     <Compile Include="Source\Weapons\Pistol.cs" />

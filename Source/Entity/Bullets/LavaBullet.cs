@@ -17,7 +17,7 @@ namespace G19.Source.Entity.Bullets
             Shader.SetParameter("frag_LightAttenuationRadius", 35);
             Shader.SetParameter("frag_ScreenResolution", Program.Window.Size.X, Program.Window.Size.Y);
 
-            ShaderSprite = new Sprite(World.ShaderTexture.Texture);
+            //ShaderSprite = new Sprite(World.ShaderTexture.Texture);
         }
 
         public LavaBullet(int team, Vector2f position, float angle, int speedPS, int power, World world) : base(
@@ -32,16 +32,16 @@ namespace G19.Source.Entity.Bullets
 
         static Shader Shader { get; set; }
         static Sprite ShaderSprite { get; set; }
+        
+        //public override void DrawShaders(RenderTarget target, ref RenderStates states)
+        //{
+        //    var coords = Sprite.Position - Program.View.GetCoordinates();
 
-        public override void DrawShaders(RenderTarget target, ref RenderStates states)
-        {
-            var coords = Sprite.Position - Program.View.GetCoordinates();
+        //    Shader.SetParameter("frag_LightOrigin", coords.X, coords.Y);
 
-            Shader.SetParameter("frag_LightOrigin", coords.X, coords.Y);
-
-            var newStates = new RenderStates(states);
-            newStates.Shader = Shader;
-            target.Draw(ShaderSprite, newStates);
-        }
+        //    var newStates = new RenderStates(states);
+        //    newStates.Shader = Shader;
+        //    target.Draw(ShaderSprite, newStates);
+        //}
     }
 }
