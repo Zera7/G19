@@ -31,6 +31,7 @@ namespace G19.Source.Entity
 
         // Layer Implementation
         public override Drawable Background { get; set; }
+        public override Vector2f Size { get; set; }
 
         // IMovable Interface
         public bool IsMoving { get; set; } = true;
@@ -67,7 +68,6 @@ namespace G19.Source.Entity
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            //states.Transform *= Transform;
             //DrawShaders(target, ref states);
             target.Draw(Background, states);
         }
@@ -83,6 +83,11 @@ namespace G19.Source.Entity
 
         public virtual void Intersect()
         {
+        }
+
+        public override Texture GetBackgroundTexture()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace G19.Source.Weapons
                 var bullet = GetBullet();
                 // Вынести в метод
                 if (!World.SubLayers.ContainsKey("1")) 
-                    World.SubLayers["1"] = new ExtendedLinkedList<ILayer>();
+                    World.SubLayers["1"] = new ExtendedLinkedList<Layer>();
                 World.SubLayers["1"].AddLast(bullet);
                 // !Вынести в метод
                 LastShotTime = DateTime.Now;

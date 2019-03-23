@@ -15,6 +15,8 @@ namespace G19.Source
         public const int Width = 800;
         public const int Height = 600;
 
+        public const bool FpsOn = true;
+
         public static RenderWindow Window;
         public static View View;
         public static Cursor Cursor;
@@ -26,6 +28,15 @@ namespace G19.Source
 
             View = new View();
             Cursor = new Cursor(Width / 2, Height / 2, View);
+
+            // fps
+            Text fps = new Text("", Content.Font)
+            {
+                Color = Color.Green,
+                CharacterSize = 24
+            };
+            int fc = 0;
+            // ---
 
             Window = new RenderWindow(new VideoMode(Width, Height), "G19");
             Window.SetMouseCursorVisible(false);
@@ -42,12 +53,24 @@ namespace G19.Source
 
                 Window.DispatchEvents();
 
-                Window.Clear(Color.Black);
+                Window.Clear();
                 game.Update(time);
 
                 game.Draw();
 
                 Window.Draw(Cursor);
+
+                if (FpsOn)
+                {
+                    fc += 1;
+                    if (fc > 40)
+                    {
+                        fps.DisplayedString = (1 / time.AsSeconds()).ToString();
+                        fc = 0;
+                    }
+                    fps.Position = View.GetCoordinates();
+                    Window.Draw(fps);
+                }
 
                 Window.Display();
             }

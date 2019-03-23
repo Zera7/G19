@@ -10,19 +10,20 @@ using System.Threading.Tasks;
 
 namespace G19.Source
 {
-    public class World : Layer
+    public class World : ParentLayer
     {
         public const int CellSize = 50;
         public const int MaxRemovedBulletsCount = 100;
-
-        public override Drawable Background { get; set; }
 
         public static IntPair WorldSize { get; set; } = new IntPair(1920, 1080);
         public LinkedList<IGameObject>[][] CellMap { get; set; }
 
         public IntPair StartPosition { get; set; }
-
         public Player Player { get; set; }
+
+        public override Vector2f Size { get; set; }
+
+        public override Drawable Background { get; set; }
 
         public World(string backgroundName)
         {
@@ -32,6 +33,10 @@ namespace G19.Source
                 Content.Backgrounds[backgroundName],
                 new IntRect(0, 0, WorldSize.X, WorldSize.Y));
             ((Sprite)Background).Texture.Repeated = true;
+
+            Size = new Vector2f(Program.Width, Program.Height);
+            FrontShaderTexture = new RenderTexture((uint)WorldSize.X, (uint)WorldSize.Y);
+            BackShaderTexture = new RenderTexture((uint)WorldSize.X, (uint)WorldSize.Y);
 
             Player = new Player(this, StartPosition);
 
@@ -59,6 +64,11 @@ namespace G19.Source
             base.Draw(target, states);
 
             target.Draw(Player, states); // Позже добавить в лист SubLayers
+        }
+
+        public override Texture GetBackgroundTexture()
+        {
+            throw new NotImplementedException();
         }
     }
 }

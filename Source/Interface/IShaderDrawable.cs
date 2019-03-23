@@ -9,9 +9,8 @@ namespace G19.Source.Interface
 {
     public interface IShaderDrawable
     {
-        Shader InnerShader { get; set; }
-        Shader ExternalShader { get; set; }
-
-        void DrawSubShaders(RenderTarget target, ref RenderStates states);
+        void SetExternalShaderGeneralParameters();
+        Shader GetInnerShader();
+        Shader GetExternalShader();
     }
 }
