@@ -15,7 +15,7 @@ namespace G19.Source.Entity
         public const int DirectionRadius = 7;
         public const int DirectionRemoteness = 70;
 
-        public int SpeedPS { get; set; } = 120;
+        public float SpeedPS { get; set; } = 120;
         public float MoveAngle { get; set; }
         public float Angle { get; set; }
         public int Team { get; set; } = 1;
@@ -23,7 +23,7 @@ namespace G19.Source.Entity
         public float IntersectionRadius { get; set; } = 10;
         public bool IsMoving { get; set; }
         public Weapon[] Weapons { get; set; }
-        public int RotateSpeedDS { get; set; } = 360;
+        public float RotateSpeedDS { get; set; } = 360;
         public bool[] Directions { get; set; } = new bool[4];
         public World World { get; }
         public int CurrentWeapon { get; set; }

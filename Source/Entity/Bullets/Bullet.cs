@@ -29,8 +29,8 @@ namespace G19.Source.Entity
 
         // IMovable Interface
         public bool IsMoving { get; set; } = true;
-        public int SpeedPS { get; set; }
-        public int RotateSpeedDS { get; set; }
+        public float SpeedPS { get; set; }
+        public float RotateSpeedDS { get; set; }
         public float MoveAngle { get; set; }
 
         // IGameObject Interface

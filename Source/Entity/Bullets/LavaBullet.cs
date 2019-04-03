@@ -33,7 +33,6 @@ namespace G19.Source.Entity.Bullets
             var rnd = new Random();
             randomTimeChange = (float)rnd.NextDouble() * -100;
 
-            ExternalShader.SetParameter("frag_LightAttenuationRadius", IntersectionRadius + 5);
         }
 
         static Shader ExternalShader { get; set; }
@@ -43,6 +42,9 @@ namespace G19.Source.Entity.Bullets
 
         public override void InitBackground()
         {
+            ExternalShader.SetParameter("frag_LightRadius", IntersectionRadius * 1.5f);
+            ExternalShader.SetParameter("frag_LightAttenuationRadius", IntersectionRadius);
+
             Background = new CircleShape(IntersectionRadius, 18)
             {
                 Position = this.Position,
@@ -71,6 +73,13 @@ namespace G19.Source.Entity.Bullets
         public override Shader GetInnerShader()
         {
             return InnerShader;
+        }
+
+        public override void Update(Time time)
+        {
+            base.Update(time);
+
+            SpeedPS -= time.AsSeconds() * SpeedPS * 0.3f;
         }
     }
 }

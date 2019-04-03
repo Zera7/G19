@@ -10,8 +10,8 @@ namespace G19.Source.Interface
     public interface IMovable : IGameObject
     {
         bool IsMoving { get; set; }
-        int SpeedPS { get; set; }
-        int RotateSpeedDS { get; set; }
+        float SpeedPS { get; set; }
+        float RotateSpeedDS { get; set; }
         float MoveAngle { get; set; }
 
         void Move(Time time);
