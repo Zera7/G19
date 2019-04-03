@@ -28,16 +28,12 @@ namespace G19.Source
                 Font = new Font(FontsPath + "Oswald-Regular.ttf");
                 Backgrounds.Add("snow", new Texture(ImagesPath + BackgroundsPath + "snow.jpg"));
                 Shaders.Add("LightingShader", ShadersPath + "LightingShader.frag");
+                Shaders.Add("LavaSphereShader", ShadersPath + "LavaSphereShader.frag");
             }
             catch (Exception e)
             {
                 throw new Exception(e.ToString());
             }
-        }
-
-        public static Shader LoadFragShader(string path)
-        {
-            return new Shader(null, path);
         }
     }
 }

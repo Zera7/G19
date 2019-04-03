@@ -12,12 +12,14 @@ namespace G19.Source.Entity.Bullets
     {
         static LavaBullet()
         {
+            // External Shader
             ExternalShader = new Shader(null, Content.Shaders["LightingShader"]);
-            ExternalShader.SetParameter("frag_LightColor", Color.Yellow);
-            ExternalShader.SetParameter("frag_LightAttenuationRadius", 100);
+            ExternalShader.SetParameter("frag_LightColor", Color.Red);
             ExternalShader.SetParameter("frag_ScreenResolution", World.WorldSize.X, World.WorldSize.Y);
 
-            // InnderShader
+            // Innder Shader
+            InnerShader = new Shader(null, Content.Shaders["LavaSphereShader"]);
+            InnerShader.SetParameter("frag_LightColor", Color.Black);
         }
 
         public LavaBullet(int team, Vector2f position, float angle, int speedPS, int power, World world) : base(
@@ -28,10 +30,25 @@ namespace G19.Source.Entity.Bullets
             speedPS: speedPS,
             power: power)
         {
+            var rnd = new Random();
+            randomTimeChange = (float)rnd.NextDouble() * -100;
+
+            ExternalShader.SetParameter("frag_LightAttenuationRadius", IntersectionRadius + 5);
         }
 
         static Shader ExternalShader { get; set; }
         static Shader InnerShader { get; set; }
+
+        readonly float randomTimeChange;
+
+        public override void InitBackground()
+        {
+            Background = new CircleShape(IntersectionRadius, 18)
+            {
+                Position = this.Position,
+                Origin = new Vector2f(IntersectionRadius, IntersectionRadius)
+            };
+        }
 
         public override Shader GetExternalShader()
         {
@@ -41,6 +58,19 @@ namespace G19.Source.Entity.Bullets
         public override void SetExternalShaderParameters(int index)
         {
             ExternalShader.SetParameter($"array[{index}]", Position);
+        }
+
+        public override void SetInnerShaderGeneralParameters()
+        {
+            InnerShader.SetParameter("frag_Resolution", World.WorldSize.X, World.WorldSize.Y);
+            InnerShader.SetParameter("frag_Center", Position.X, Position.Y);
+            InnerShader.SetParameter("frag_Radius", IntersectionRadius);
+            InnerShader.SetParameter("frag_Time", Program.TimeInSeconds + randomTimeChange);
+        }
+
+        public override Shader GetInnerShader()
+        {
+            return InnerShader;
         }
     }
 }

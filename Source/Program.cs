@@ -21,11 +21,24 @@ namespace G19.Source
         public static View View;
         public static Cursor Cursor;
         public static Clock Clock = new Clock();
+        public static float TimeInSeconds {
+            get
+            {
+                return timeInSeconds;
+            }
+            set
+            {
+                if (value > float.MaxValue - 1000)
+                    timeInSeconds = 0;
+                else
+                    timeInSeconds = value;
+            }
+        }
+        private static float timeInSeconds;
 
         static void Main(string[] args)
         {
             Content.Load();
-
             View = new View();
             Cursor = new Cursor(Width / 2, Height / 2, View);
 
@@ -50,7 +63,7 @@ namespace G19.Source
                 Window.SetView(View);
 
                 var time = Clock.Restart();
-
+                TimeInSeconds += time.AsSeconds();
                 Window.DispatchEvents();
 
                 Window.Clear();

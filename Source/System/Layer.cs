@@ -24,10 +24,13 @@ namespace G19.Source
             if (IsRemoved)
                 return;
 
-            states.Shader = GetInnerShader();
 
             if (Background != null)
+            {
+                SetInnerShaderGeneralParameters();
+                states.Shader = GetInnerShader();
                 target.Draw(Background, states);
+            }
         }
 
         public virtual Shader GetInnerShader()
@@ -45,6 +48,10 @@ namespace G19.Source
         }
 
         public virtual void SetExternalShaderGeneralParameters()
+        {
+        }
+
+        public virtual void SetInnerShaderGeneralParameters()
         {
         }
 

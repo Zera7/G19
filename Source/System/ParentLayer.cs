@@ -118,8 +118,7 @@ namespace G19.Source
         {
             foreach (var list in SubLayers)
                 foreach (var layer in list.Value)
-                    if (!layer.IsRemoved)
-                        BackShaderTexture.Draw(layer, states);
+                    BackShaderTexture.Draw(layer, states);
         }
     }
 }

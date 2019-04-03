@@ -20,13 +20,7 @@ namespace G19.Source.Entity
             this.IntersectionRadius = radius;
             this.SpeedPS = speedPS;
 
-            Background = new CircleShape(IntersectionRadius, 3)
-            {
-                FillColor = Color.Red,
-                Rotation = 90 - MoveAngle,
-                Position = this.Position,
-                Origin = new Vector2f(IntersectionRadius, IntersectionRadius)
-            };
+            InitBackground();
         }
 
         // Layer Implementation
@@ -57,6 +51,17 @@ namespace G19.Source.Entity
             }
         }
 
+        public virtual void InitBackground()
+        {
+            Background = new CircleShape(IntersectionRadius, 3)
+            {
+                FillColor = Color.Red,
+                Rotation = 90 - MoveAngle,
+                Position = this.Position,
+                Origin = new Vector2f(IntersectionRadius, IntersectionRadius)
+            };
+        }
+
         public override void Update(Time time)
         {
             Move(time);
@@ -64,12 +69,6 @@ namespace G19.Source.Entity
 
             if (!IsInsideMap)
                 IsRemoved = true;
-        }
-
-        public override void Draw(RenderTarget target, RenderStates states)
-        {
-            //DrawShaders(target, ref states);
-            target.Draw(Background, states);
         }
 
         public virtual void Move(Time time)

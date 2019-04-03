@@ -13,10 +13,10 @@ namespace G19.Source.Weapons
         public LavaGun(World world) : base(
             world: world,
             power: 53, 
-            bulletSpeed: 500, 
-            attackInterval: 0.05f, 
+            bulletSpeed: 200, 
+            attackInterval: 0.1f, 
             reloadTime: 3f, 
-            maxPatronCount: 1000)
+            maxPatronCount: 7)
         {
         }
 
